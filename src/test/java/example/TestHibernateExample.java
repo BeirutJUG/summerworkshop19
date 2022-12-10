@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -53,7 +55,9 @@ public class TestHibernateExample {
             transaction.commit();
 
             Transaction transaction2 = session.beginTransaction();
-            List<User> list = session.createCriteria(User.class).list();
+            CriteriaQuery<User> criteriaQuery = session.getCriteriaBuilder().createQuery(User.class);
+            criteriaQuery.from(User.class);
+            List<User> list = session.createQuery(criteriaQuery).list();
 
             assertEquals(1, list.size());
 
